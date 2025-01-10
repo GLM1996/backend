@@ -3,6 +3,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
 import cors from 'cors';
+import followBossRoutes from './routes/followBossRoutes.js';
+
+const router = express.Router();
 
 dotenv.config();
 
@@ -35,55 +38,8 @@ app.get('/google-sheet', async (req, res) => {
     }
 });
 
-// Endpoint para obtener deals de Follow Up Boss
-app.get('/follow-boss/deals', async (req, res) => {
-    const apiKey = process.env.FOLLOW_BOSS_API_KEY; // Definido en .env
-    const { personName } = req.query;
-
-    if (!personName) return res.status(400).send('El parámetro personId es obligatorio');
-
-    let allDeals = [];
-    let url = `https://api.followupboss.com/v1/deals?name=${personName}&status=Active&limit=100`;
-
-    try {
-        while (url) {
-            const response = await fetch(url, {
-                headers: { 'Authorization': 'Basic ' + Buffer.from(`${apiKey}:`).toString('base64') }
-            });
-            const data = await response.json();
-
-            allDeals = [...allDeals, ...(data.deals || [])];
-            url = data._metadata?.nextLink || null;
-        }
-        res.json(allDeals);
-    } catch (error) {
-        console.error('Error al obtener deals:', error);
-        res.status(500).send('Error al obtener deals');
-    }
-});
-// Endpoint para cargar pipelines deals de Follow Up Boss
-app.get('/follow-boss/pipelines', async (req, res) => {
-    const apiKey = process.env.FOLLOW_BOSS_API_KEY; // Definido en .env
-
-    let allPipelines = [];
-    let url = `https://api.followupboss.com/v1/pipelines?limit=100`;
-
-    try {
-        while (url) {
-            const response = await fetch(url, {
-                headers: { 'Authorization': 'Basic ' + Buffer.from(`${apiKey}:`).toString('base64') }
-            });
-            const data = await response.json();
-
-            allPipelines = [...allPipelines, ...(data.pipelines || [])];
-            url = data._metadata?.nextLink || null;
-        }
-        res.json(allPipelines);
-    } catch (error) {
-        console.error('Error al obtener deals:', error);
-        res.status(500).send('Error al obtener deals');
-    }
-});
+// Usar las rutas definidas
+app.use('/api', followBossRoutes);
 
 // Servidor en ejecución
 app.listen(port, () => {
