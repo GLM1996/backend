@@ -35,32 +35,6 @@ app.get('/google-sheet', async (req, res) => {
     }
 });
 
-// Endpoint para obtener deals de Follow Up Boss
-app.get('/follow-boss/deals', async (req, res) => {
-    const apiKey = process.env.FOLLOW_BOSS_API_KEY; // Definido en .env
-    const { personName } = req.query;
-
-    if (!personName) return res.status(400).send('El parámetro personId es obligatorio');
-
-    let allDeals = [];
-    let url = `https://api.followupboss.com/v1/deals?name=${personName}&status=Active&limit=100`;
-
-    try {
-        while (url) {
-            const response = await fetch(url, {
-                headers: { 'Authorization': 'Basic ' + Buffer.from(`${apiKey}:`).toString('base64') }
-            });
-            const data = await response.json();
-
-            allDeals = [...allDeals, ...(data.deals || [])];
-            url = data._metadata?.nextLink || null;
-        }
-        res.json(allDeals);
-    } catch (error) {
-        console.error('Error al obtener deals:', error);
-        res.status(500).send('Error al obtener deals');
-    }
-});
 
 // Servidor en ejecución
 app.listen(port, () => {
