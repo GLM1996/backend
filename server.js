@@ -1,35 +1,68 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+import dotenv from 'dotenv';
+import express from 'express';
+import bodyParser from 'body-parser';
+import fetch from 'node-fetch';
+import cors from 'cors';
+
+dotenv.config(); 
 
 const app = express();
-const PORT = 4000; // Cambia el puerto si es necesario
+const port = process.env.PORT || 3000;
 
-// Middleware para procesar JSON
+app.use(cors({
+    origin: 'http://127.0.0.1:5500'  // Especifica tu origen
+  }));
+
+// Middleware para manejar JSON
 app.use(bodyParser.json());
 
-// Ruta para recibir el webhook
-app.post('/webhook', (req, res) => {
-    console.log('Webhook recibido:', req.body);
+// Endpoint para obtener datos de Google Sheets
+app.get('/google-sheet', async (req, res) => {
 
-    // Procesar el contenido del webhook
-    const { event, data } = req.body;
+    const sheetId = process.env.SHEET_ID; // Definido en .env
+    const range = 'Enlaces!A2:B';
+    const apiKey = process.env.GOOGLE_API_KEY; // Definido en .env
 
-    // Responde según el evento recibido
-    if (event === 'deal.created') {
-        console.log(`Nuevo trato creado: ${data.name}`);
-    } else if (event === 'deal.updated') {
-        console.log(`Trato actualizado: ${data.name}`);
-    } else {
-        console.log(`Evento desconocido: ${event}`);
+    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}?key=${apiKey}`;
+   
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        res.json(data.values || []);
+    } catch (error) {
+        console.error('Error al obtener Google Sheets:', error);
+        res.status(500).send('Error al obtener Google Sheets');
     }
-
-    // Responder al servidor que envió el webhook
-    res.status(200).send({ success: true, message: 'Webhook procesado' });
 });
-app.get('/',(req,res)=>{
-    res.send('Servidor Gustavo')
-})
-// Inicia el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+
+// Endpoint para obtener deals de Follow Up Boss
+app.get('/follow-boss/deals', async (req, res) => {
+    const apiKey = process.env.FOLLOW_BOSS_API_KEY; // Definido en .env
+    const { personName } = req.query;
+
+    if (!personName) return res.status(400).send('El parámetro personId es obligatorio');
+
+    let allDeals = [];
+    let url = `https://api.followupboss.com/v1/deals?name=${personName}&status=Active&limit=100`;
+
+    try {
+        while (url) {
+            const response = await fetch(url, {
+                headers: { 'Authorization': 'Basic ' + Buffer.from(`${apiKey}:`).toString('base64') }
+            });
+            const data = await response.json();
+
+            allDeals = [...allDeals, ...(data.deals || [])];
+            url = data._metadata?.nextLink || null;
+        }
+        res.json(allDeals);
+    } catch (error) {
+        console.error('Error al obtener deals:', error);
+        res.status(500).send('Error al obtener deals');
+    }
+});
+
+// Servidor en ejecución
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });
