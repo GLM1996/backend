@@ -20,3 +20,20 @@ export const getPipelines = async (apiKey) => {
         res.status(500).send('Error al obtener deals');
     }
 };
+// Función para obtener todos los pipelines
+export const getGoogleEnlaces = async () => {
+    const sheetId = process.env.SHEET_ID; // Definido en .env
+    const range = 'Enlaces!A2:B';
+    const apiKey = process.env.GOOGLE_API_KEY; // Definido en .env
+
+    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}?key=${apiKey}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        res.json(data.values || []);
+    } catch (error) {
+        console.error('Error al obtener Google Sheets:', error);
+        res.status(500).send('Error al obtener Google Sheets');
+    }
+};

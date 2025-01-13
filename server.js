@@ -19,25 +19,6 @@ app.use(cors({
 // Middleware para manejar JSON
 app.use(bodyParser.json());
 
-// Endpoint para obtener datos de Google Sheets
-app.get('/google-sheet', async (req, res) => {
-
-    const sheetId = process.env.SHEET_ID; // Definido en .env
-    const range = 'Enlaces!A2:B';
-    const apiKey = process.env.GOOGLE_API_KEY; // Definido en .env
-
-    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}?key=${apiKey}`;
-
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        res.json(data.values || []);
-    } catch (error) {
-        console.error('Error al obtener Google Sheets:', error);
-        res.status(500).send('Error al obtener Google Sheets');
-    }
-});
-
 // Usar las rutas definidas
 app.use('/api', followBossRoutes);
 
