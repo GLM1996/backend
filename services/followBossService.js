@@ -31,7 +31,7 @@ export const getGoogleEnlaces = async () => {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        res.json(data.values || []);
+       return data.values
     } catch (error) {
         console.error('Error al obtener Google Sheets:', error);
         res.status(500).send('Error al obtener Google Sheets');
