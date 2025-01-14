@@ -22,6 +22,17 @@ app.use(bodyParser.json());
 // Usar las rutas definidas
 app.use('/api', followBossRoutes);
 
+app.use((req, res, next) => {
+    console.log('Nueva solicitud entrante:');
+    console.log('Método:', req.method);
+    console.log('URL:', req.url);
+    console.log('Cabeceras:', req.headers);
+    console.log('Cuerpo:', req.body);
+
+    next(); // Continúa con la siguiente ruta
+});
+
+
 // Servidor en ejecución
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
