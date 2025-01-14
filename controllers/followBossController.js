@@ -32,6 +32,7 @@ export const getWebhooks = async (req, res) => {
     try {
         const datosWebhook = await getWebhook(dealUri)
         console.log("Deal Editado:", dealUri)
+        console.log("Datos" , datosWebhook)
         console.log("Person Id:", datosWebhook.personId)
         console.log("Person:", datosWebhook.person)
 
