@@ -12,6 +12,6 @@ router.get('/follow-boss/pipelines', getFollowBossPipelines);
 router.get('/google-sheet', getGoogleSheet);
 
 // Definir la ruta y el controlador
-router.get('/webhook', getWebhooks);
+router.post('/webhook', getWebhooks);
 
 export default router;
