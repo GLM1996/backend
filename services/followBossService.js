@@ -37,3 +37,7 @@ export const getGoogleEnlaces = async () => {
         res.status(500).send('Error al obtener Google Sheets');
     }
 };
+//funcion para webhook
+export const getWebhook = async (data) => { 
+        return data
+};
