@@ -25,7 +25,9 @@ export const getGoogleSheet = async (req, res) => {
 };
 export const getWebhooks = async (req, res) => {
     const webhookData = req.headers;
-    console.log(webhookData)
+    console.log('----- Webhook recibido -----');
+    console.log('Cabeceras:', req.headers);
+    console.log('Cuerpo:', req.body);
     try {
         const webhook = await getWebhook(webhookData);
         res.json(webhook);
