@@ -51,7 +51,7 @@ async function obtenerPersonId(dealUri){
     }
     const response = await fetch(dealUri, options);
     const data = await response.json();
-    return data.people.id
+    return data.people[0].id
 }
 async function cargarPerson(personId) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
