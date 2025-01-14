@@ -39,11 +39,15 @@ export const getGoogleEnlaces = async () => {
 };
 //funcion para webhook
 export const getWebhook = async (data) => {
-    const personId = await obtenerPersonId(data)
-    const person = await cargarPerson(personId)
-    return { personId: personId, person: person }
+    const deal = await obtenerDeal(data)
+    const person = await cargarPerson(deal.people[0].id)
+    const pipeline = await cargarPipeline(deal.pipelineId)
+    const stages = pipeline.stages
+    const stage = stages.find(element => element.id === deal.stageId);
+
+    return { deal: deal, person: person, pipeline: pipeline,stage: stage}
 };
-async function obtenerPersonId(dealUri) {
+async function obtenerDeal(dealUri) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
     const options = {
         method: 'GET', headers: {
@@ -52,7 +56,19 @@ async function obtenerPersonId(dealUri) {
     }
     const response = await fetch(dealUri, options);
     const data = await response.json();
-    return data.people[0].id
+    return data
+}
+async function cargarPipeline(pipelineId) {
+    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
+    const url = `https://api.followupboss.com/v1/pipelines/${pipelineId}`
+    const options = {
+        method: 'GET', headers: {
+            'Authorization': 'Basic ' + btoa(API_KEY + ':')
+        }
+    }
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data
 }
 async function cargarPerson(personId) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
@@ -66,3 +82,4 @@ async function cargarPerson(personId) {
     const data = await response.json();
     return data
 }
+

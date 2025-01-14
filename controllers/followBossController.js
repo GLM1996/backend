@@ -31,10 +31,10 @@ export const getWebhooks = async (req, res) => {
     // const dealUri = body.uri
     try {
         const datosWebhook = await getWebhook(dealUri)
-        console.log("Deal Editado:", dealUri)
-        console.log("Datos" , datosWebhook)
-        console.log("Person Id:", datosWebhook.personId)
-        console.log("Person:", datosWebhook.person)
+        console.log("Deal Editado:", datosWebhook.deal)
+        console.log("Persona" , datosWebhook.person)
+        console.log("Pipeline:", datosWebhook.pipeline)
+        console.log("Stage:", datosWebhook.stage)
 
         res.status(200).send('Webhook recibido');
     } catch (error) {
