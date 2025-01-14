@@ -43,7 +43,7 @@ export const getWebhooks = async (req, res) => {
     }
 };
 async function obtenerPersonId(dealUri){
-    const apiKey = process.env.FOLLOW_BOSS_API_KEY;
+    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
     const options = {
         method: 'GET' , headers: {
             'Authorization': 'Basic ' + btoa(API_KEY + ':')
@@ -54,7 +54,7 @@ async function obtenerPersonId(dealUri){
     return data.people.id
 }
 async function cargarPerson(personId) {
-    const apiKey = process.env.FOLLOW_BOSS_API_KEY;
+    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
     let url = `https://api.followupboss.com/v1/people/${personId}`;
     const options = {
         method: 'GET', headers: {
