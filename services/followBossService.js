@@ -41,7 +41,7 @@ export const getGoogleEnlaces = async () => {
 export const getWebhook = async (data) => {
     const personId = await obtenerPersonId(data)
     const person = await cargarPerson(personId)
-    return [personId, person]
+    return { personId: personId, person: person }
 };
 async function obtenerPersonId(dealUri) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
