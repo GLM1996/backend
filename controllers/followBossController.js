@@ -12,7 +12,6 @@ export const getFollowBossPipelines = async (req, res) => {
         res.status(500).send('Error al obtener pipelines');
     }
 };
-
 export const getGoogleSheet = async (req, res) => {
     const apiKey = process.env.GOOGLE_API_KEY;
     try {
@@ -24,46 +23,24 @@ export const getGoogleSheet = async (req, res) => {
     }
 };
 export const getWebhooks = async (req, res) => {
-    const webhookData = req.headers;
-    console.log('----- Webhook recibido -----');
-
+    //const webhookData = req.headers;
     //obteniendo la direccion del Deal Editado
     const dealUri = req.body.uri
-    const personId = await obtenerPersonId(dealUri);
-    const person = await cargarPerson(personId);
-   // const dealUri = body.uri
-    console.log("Deal Editado:", dealUri)
-    console.log("Person Id:" , personId)
-    console.log("Person:" , person)
-    try {        
+    //const personId = await obtenerPersonId(dealUri);
+    //const person = await cargarPerson(personId);
+    // const dealUri = body.uri
+    try {
+        const datosWebhook = getWebhook(dealUri)
+        console.log("Deal Editado:", dealUri)
+        console.log("Person Id:", datosWebhook.personId)
+        console.log("Person:", datosWebhook.person)
+
         res.status(200).send('Webhook recibido');
     } catch (error) {
         console.error('Error al obtener google sheet:', error);
         res.status(500).send('Error al obtener google sheet');
     }
 };
-async function obtenerPersonId(dealUri){
-    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
-    const options = {
-        method: 'GET' , headers: {
-            'Authorization': 'Basic ' + btoa(API_KEY + ':')
-        }
-    }
-    const response = await fetch(dealUri, options);
-    const data = await response.json();
-    return data.people[0].id
-}
-async function cargarPerson(personId) {
-    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
-    let url = `https://api.followupboss.com/v1/people/${personId}`;
-    const options = {
-        method: 'GET', headers: {
-            'Authorization': 'Basic ' + btoa(API_KEY + ':') // Usamos 'Basic' y la clave API codificada en base64
-        }
-    }
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return data
-}
+
 
 

@@ -31,13 +31,38 @@ export const getGoogleEnlaces = async () => {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-       return data.values
+        return data.values
     } catch (error) {
         console.error('Error al obtener Google Sheets:', error);
         res.status(500).send('Error al obtener Google Sheets');
     }
 };
 //funcion para webhook
-export const getWebhook = async (data) => { 
-        return data
+export const getWebhook = async (data) => {
+    const personId = await obtenerPersonId(data)
+    const person = await cargarPerson(personId)
+    return [personId, person]
 };
+async function obtenerPersonId(dealUri) {
+    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
+    const options = {
+        method: 'GET', headers: {
+            'Authorization': 'Basic ' + btoa(API_KEY + ':')
+        }
+    }
+    const response = await fetch(dealUri, options);
+    const data = await response.json();
+    return data.people[0].id
+}
+async function cargarPerson(personId) {
+    const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
+    let url = `https://api.followupboss.com/v1/people/${personId}`;
+    const options = {
+        method: 'GET', headers: {
+            'Authorization': 'Basic ' + btoa(API_KEY + ':') // Usamos 'Basic' y la clave API codificada en base64
+        }
+    }
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data
+}
