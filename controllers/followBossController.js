@@ -24,7 +24,7 @@ export const getGoogleSheet = async (req, res) => {
     }
 };
 export const getWebhooks = async (req, res) => {
-    const webhookData = req.body;
+    const webhookData = req.headers;
     console.log(webhookData)
     try {
         const webhook = await getWebhook(webhookData);
