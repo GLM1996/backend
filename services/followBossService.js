@@ -41,17 +41,18 @@ export const getGoogleEnlaces = async () => {
 export const getWebhook = async (apiKey, data) => {
     const deal = await obtenerDeal(data)
     const person = await cargarPerson(deal.people[0].id)
-    const pipeline = await cargarPipeline(deal.pipelineId)
+    //const pipeline = await cargarPipeline(deal.pipelineId)
 
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
     if (person.id === 39927) {
         //await createNoteForPerson(apiKey, person, deal)
-        //await actualizarStagePerson(apiKey, person.id, stageId, stageName)
-        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
-        console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
+        console.log("Stage Anteriro: ",person.stage)
+        await actualizarStagePerson(apiKey, deal, person, pipeline)
+        console.log("Stage Anteriro: ",person.stage)
+       // console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
+       // console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
     } else {
-        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
-        console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
+        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName,"Person Stage: ",deal.stageName)      
     }
     //const pipeline = await cargarPipeline(deal.pipelineId)
     //const stages = pipeline.stages
@@ -110,8 +111,8 @@ async function createNoteForPerson(apiKey, person, deal) {
         alert('Hubo un error al crear la nota.');
     }
 }
-async function actualizarStagePerson(apiKey, idPerson, stageId, stageName) {
-    const url = `https://api.followupboss.com/v1/people/${idPerson}`;
+async function actualizarStagePerson(apiKey, deal, person, pipeline) {
+    const url = `https://api.followupboss.com/v1/people/${person.id}`;
     const options = {
         method: 'PUT',
         headers: {
@@ -119,11 +120,10 @@ async function actualizarStagePerson(apiKey, idPerson, stageId, stageName) {
             'Authorization': 'Basic ' + btoa(apiKey + ':') // Usamos 'Basic' y la clave API codificada en base64
         },
         body: JSON.stringify({
-            stage: stageName, // Nuevo stage
-            stageId: stageId
+            stage: deal.stageName, // Nuevo stage
         })
     }
-    /*try {
+    try {
         const response = await fetch(url, options);
         if (response.ok) {
             const data = await response.json();
@@ -137,7 +137,7 @@ async function actualizarStagePerson(apiKey, idPerson, stageId, stageName) {
     } catch (error) {
         console.error('Error de red:', error);
         alert('No se pudo conectar con Follow Up Boss');
-    }*/
+    }
     console.log('Logica de actualizar el Stage')
 }
 async function cargarPipeline(pipelineId) {
