@@ -98,7 +98,7 @@ async function createNoteForPerson(apiKey, person, deal) {
         });
 
         if (!response.ok) {
-            throw new Error(`Error al crear la nota: ${response.statusText}`);
+            console.log(`Error al crear la nota: ${response.statusText}`);
         }
         const result = await response.json();
         console.log('Logica de crear nota:', result);
