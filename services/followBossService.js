@@ -42,11 +42,13 @@ export const getWebhook = async (apiKey, data) => {
     const deal = await obtenerDeal(data)
     const person = await cargarPerson(deal.people[0].id)
     const pipeline = await cargarPipeline(deal.pipelineId)
-    if (person.id === '39927' && (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))) {
-        await createNoteForPerson(apiKey, person.id)
+
+    //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
+    if (person.id === '39927') {
+        await createNoteForPerson(apiKey, person, deal)
         await actualizarStagePerson(apiKey, person.id, stageId, stageName)
-    }else{
-        console.log("Person ID: ",person.id,"Pipeline Name: ",pipeline.name)
+    } else {
+        console.log("Person ID: ", person.id, "Pipeline Name: ", pipeline.name)
     }
     //const pipeline = await cargarPipeline(deal.pipelineId)
     //const stages = pipeline.stages
@@ -78,19 +80,19 @@ async function cargarPerson(personId) {
     const data = await response.json();
     return data
 }
-async function createNoteForPerson(apiKey, idPerson) {
+async function createNoteForPerson(apiKey, person, deal) {
     try {
         // Crear la nota
-        /*const response = await fetch('https://api.followupboss.com/v1/notes', {
+        const response = await fetch('https://api.followupboss.com/v1/notes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Basic ${btoa(apiKey + ':')}` // Autenticación básica con API Key
             },
             body: JSON.stringify({
-                personId: idPerson, // ID del contacto
-                subject: 'STAGE UPDATED', // Texto de la nota
-                body: `<b>${usuario_logueado.name}</b> changed the Stage from <b style="color: red">${persona_selected.stage.name}</b> to <b style="color: green">${newStage}</b>`,
+                personId: person.id, // ID del contacto
+                subject: 'DEAL UPDATED', // Texto de la nota
+                body: `<b style="color: red">Deal actualizado de ${person.dealStage}</b> to <b style="color: green">${deal.pipelineName} - ${deal.stageName}</b>`,
                 isHtml: true
             })
         });
@@ -98,9 +100,8 @@ async function createNoteForPerson(apiKey, idPerson) {
         if (!response.ok) {
             throw new Error(`Error al crear la nota: ${response.statusText}`);
         }
-
-        const result = await response.json();*/
-        console.log('Logica de crear nota:');
+        const result = await response.json();
+        console.log('Logica de crear nota:', result);
     } catch (error) {
         console.error('Error al crear la nota:', error);
         alert('Hubo un error al crear la nota.');
