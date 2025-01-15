@@ -46,23 +46,15 @@ export const getWebhook = async (apiKey, data) => {
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
     if (person.id === 39927) {
         //await createNoteForPerson(apiKey, person, deal)
-        console.log("Stage Anteriro: ", person.stage)
-
         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
             await actualizarStagePerson(apiKey, deal, person)
-            console.log("Stage Anteriro: ", person.stage)
+            console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person StageOld: ", person.stage, "Person Stage New: ", deal.stageName)
+        } else {
+            console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person StageOld: ", person.stage, "Person Stage New: ", "No se Actualiza")
         }
-        console.log("No se Actualiza Stage")
-        // console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
-        // console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
     } else {
         console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person Stage: ", deal.stageName)
     }
-    //const pipeline = await cargarPipeline(deal.pipelineId)
-    //const stages = pipeline.stages
-    //const stage = stages.find(element => element.id === deal.stageId);
-
-    //return { deal: deal, person: person, pipeline: pipeline,stage: stage}
     return { deal: deal, person: person }
 };
 async function obtenerDeal(dealUri) {
@@ -131,8 +123,8 @@ async function actualizarStagePerson(apiKey, deal, person) {
         const response = await fetch(url, options);
         if (response.ok) {
             // await actualizarDeal(stageId, newStage)
-           // await createNoteForPerson(newStage);
-           console.log("Se actualizo el stage desde el Servidor")
+            // await createNoteForPerson(newStage);
+            console.log("Se actualizo el stage desde el Servidor")
         } else {
             const errorData = await response.json();
             showToast(errorData, 1)
