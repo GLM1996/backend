@@ -48,17 +48,18 @@ export const getWebhook = async (apiKey, data) => {
         //await createNoteForPerson(apiKey, person, deal)
         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
             await actualizarStagePerson(apiKey, deal, person)
-            console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person StageOld: ", person.stage, "Person Stage New: ", deal.stageName)
+            console.log("P-ID: ", person.id, "P-N:", person.firstName, person.lastName, "P-S: ", person.stage, "D-S: ", deal.stageName, "MOD")
         } else {
-            console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person StageOld: ", person.stage, "Person Stage New: ", "No se Actualiza")
+            console.log("P-ID: ", person.id, "P-N:", person.firstName, person.lastName, "P-S: ", person.stage, "D-S: ", deal.stageName, "NO MOD")
         }
     } else {
-        if(deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')){
-            console.log("Person ID: ", person.id, "Person Name:", person.name, "Deal ID: ", deal.id, ' - ', deal.name, "Person Stage: ", deal.stageName, "MODIFICA")
-        }else{
-            console.log("Person ID: ", person.id, "Person Name:", person.name, "Deal ID: ", deal.id, ' - ', deal.name, "Person Stage: ", deal.stageName, "NO MODIFICA")
+        if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
+            //await actualizarStagePerson(apiKey, deal, person)
+            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName, "--> MOD")
+        } else {
+            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName, "--> NO MOD")
         }
-        
+
     }
     return { deal: deal, person: person }
 };
