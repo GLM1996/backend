@@ -47,6 +47,7 @@ export const getWebhook = async (apiKey, data) => {
     if (person.id === 39927) {
         //await createNoteForPerson(apiKey, person, deal)
         console.log("Stage Anteriro: ", person.stage)
+
         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
             await actualizarStagePerson(apiKey, deal, person)
             console.log("Stage Anteriro: ", person.stage)
@@ -129,10 +130,9 @@ async function actualizarStagePerson(apiKey, deal, person) {
     try {
         const response = await fetch(url, options);
         if (response.ok) {
-            const data = await response.json();
             // await actualizarDeal(stageId, newStage)
-            await createNoteForPerson(newStage);
-            showToast('Stage changed', 0)
+           // await createNoteForPerson(newStage);
+           console.log("Se actualizo el stage desde el Servidor")
         } else {
             const errorData = await response.json();
             showToast(errorData, 1)
