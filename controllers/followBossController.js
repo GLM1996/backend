@@ -33,8 +33,8 @@ export const getWebhooks = async (req, res) => {
     try {
         const datosWebhook = await getWebhook(apiKey,dealUri)
         if (datosWebhook.person.id === 39927) {
-            console.log("Deal Editado:", datosWebhook.deal)
-            console.log("Persona", datosWebhook.person)
+            //console.log("Deal Editado:", datosWebhook.deal)
+            //console.log("Persona", datosWebhook.person)
            // console.log(req.headers,req.body)
         }
         //console.log("Pipeline:", datosWebhook.pipeline)
