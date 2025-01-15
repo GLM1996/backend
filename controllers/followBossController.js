@@ -35,10 +35,11 @@ export const getWebhooks = async (req, res) => {
         if (datosWebhook.person.id = "39927") {
             //console.log("Deal Editado:", datosWebhook.deal)
             //console.log("Persona", datosWebhook.person)
+            console.log(req.headers,req.body)
         }
         //console.log("Pipeline:", datosWebhook.pipeline)
         //console.log("Stage:", datosWebhook.stage)
-        console.log(req.headers,req.body)
+        
         res.status(200).send('Webhook recibido');
     } catch (error) {
         console.error('Error al obtener google sheet:', error);
