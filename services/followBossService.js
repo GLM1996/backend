@@ -124,7 +124,6 @@ async function actualizarStagePerson(apiKey, deal, person) {
         if (response.ok) {
             // await actualizarDeal(stageId, newStage)
             // await createNoteForPerson(newStage);
-            console.log("Se actualizo el stage desde el Servidor")
         } else {
             const errorData = await response.json();
             showToast(errorData, 1)
@@ -133,7 +132,7 @@ async function actualizarStagePerson(apiKey, deal, person) {
         console.error('Error de red:', error);
         alert('No se pudo conectar con Follow Up Boss');
     }
-    console.log('Logica de actualizar el Stage')
+    
 }
 async function cargarPipeline(pipelineId) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;

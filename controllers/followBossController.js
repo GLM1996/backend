@@ -38,8 +38,7 @@ export const getWebhooks = async (req, res) => {
            // console.log(req.headers,req.body)
         }
         //console.log("Pipeline:", datosWebhook.pipeline)
-        //console.log("Stage:", datosWebhook.stage)
-        
+        //console.log("Stage:", datosWebhook.stage)        
         res.status(200).send('Webhook recibido');
     } catch (error) {
         console.error('Error al obtener gwebhooks:', error);
