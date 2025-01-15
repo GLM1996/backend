@@ -48,7 +48,7 @@ export const getWebhook = async (apiKey, data) => {
         //await createNoteForPerson(apiKey, person, deal)
         console.log("Stage Anteriro: ", person.stage)
         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
-            await actualizarStagePerson(apiKey, deal, person, pipeline)
+            await actualizarStagePerson(apiKey, deal, person)
             console.log("Stage Anteriro: ", person.stage)
         }
         console.log("No se Actualiza Stage")
@@ -114,7 +114,7 @@ async function createNoteForPerson(apiKey, person, deal) {
         alert('Hubo un error al crear la nota.');
     }
 }
-async function actualizarStagePerson(apiKey, deal, person, pipeline) {
+async function actualizarStagePerson(apiKey, deal, person) {
     const url = `https://api.followupboss.com/v1/people/${person.id}`;
     const options = {
         method: 'PUT',
