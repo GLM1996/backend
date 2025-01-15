@@ -42,8 +42,8 @@ export const getWebhooks = async (req, res) => {
         
         res.status(200).send('Webhook recibido');
     } catch (error) {
-        console.error('Error al obtener google sheet:', error);
-        res.status(500).send('Error al obtener google sheet');
+        console.error('Error al obtener gwebhooks:', error);
+        res.status(500).send('Error al obtener gwebhooks');
     }
 };
 
