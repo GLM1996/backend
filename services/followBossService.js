@@ -46,13 +46,16 @@ export const getWebhook = async (apiKey, data) => {
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
     if (person.id === 39927) {
         //await createNoteForPerson(apiKey, person, deal)
-        console.log("Stage Anteriro: ",person.stage)
-        await actualizarStagePerson(apiKey, deal, person, pipeline)
-        console.log("Stage Anteriro: ",person.stage)
-       // console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
-       // console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
+        console.log("Stage Anteriro: ", person.stage)
+        if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
+            await actualizarStagePerson(apiKey, deal, person, pipeline)
+            console.log("Stage Anteriro: ", person.stage)
+        }
+        console.log("No se Actualiza Stage")
+        // console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
+        // console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
     } else {
-        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName,"Person Stage: ",deal.stageName)      
+        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person Stage: ", deal.stageName)
     }
     //const pipeline = await cargarPipeline(deal.pipelineId)
     //const stages = pipeline.stages
