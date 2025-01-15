@@ -23,6 +23,7 @@ export const getGoogleSheet = async (req, res) => {
     }
 };
 export const getWebhooks = async (req, res) => {
+    const apiKey = process.env.FOLLOW_BOSS_API_KEY;
     //const webhookData = req.headers;
     //obteniendo la direccion del Deal Editado
     const dealUri = req.body.uri
@@ -30,12 +31,13 @@ export const getWebhooks = async (req, res) => {
     //const person = await cargarPerson(personId);
     // const dealUri = body.uri
     try {
-        const datosWebhook = await getWebhook(dealUri)
-        console.log("Deal Editado:", datosWebhook.deal)
-        console.log("Persona" , datosWebhook.person)
-        console.log("Pipeline:", datosWebhook.pipeline)
-        console.log("Stage:", datosWebhook.stage)
-
+        const datosWebhook = await getWebhook(apiKey,dealUri)
+        if (datosWebhook.person.id = "39927") {
+            console.log("Deal Editado:", datosWebhook.deal)
+            console.log("Persona", datosWebhook.person)
+        }
+        //console.log("Pipeline:", datosWebhook.pipeline)
+        //console.log("Stage:", datosWebhook.stage)
         res.status(200).send('Webhook recibido');
     } catch (error) {
         console.error('Error al obtener google sheet:', error);
