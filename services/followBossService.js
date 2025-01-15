@@ -45,10 +45,13 @@ export const getWebhook = async (apiKey, data) => {
 
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
     if (person.id === 39927) {
-        await createNoteForPerson(apiKey, person, deal)
+        //await createNoteForPerson(apiKey, person, deal)
         //await actualizarStagePerson(apiKey, person.id, stageId, stageName)
+        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
+        console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
     } else {
-        console.log("Person ID: ", person.id,"Person Name:" ,person.firstName, "Pipeline Name: ", pipeline.name)
+        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName)
+        console.log("Pipeline Name: ", pipeline.name, "Stage name", deal.stageName)
     }
     //const pipeline = await cargarPipeline(deal.pipelineId)
     //const stages = pipeline.stages
