@@ -53,7 +53,7 @@ export const getWebhook = async (apiKey, data) => {
             console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person StageOld: ", person.stage, "Person Stage New: ", "No se Actualiza")
         }
     } else {
-        console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person Stage: ", deal.stageName)
+        console.log("Person ID: ", person.id, "Person Name:", person.name, "Deal ID: ", deal.id, ' - ', deal.name, "Person Stage: ", deal.stageName)
     }
     return { deal: deal, person: person }
 };
@@ -62,7 +62,7 @@ async function obtenerDeal(dealUri) {
     const options = {
         method: 'GET', headers: {
             'Authorization': 'Basic ' + btoa(API_KEY + ':'),
-            'X-System' : 'Automatizaciones',
+            'X-System': 'Automatizaciones',
             'X-System-Key': '6560b17c4117adb12bbff065f0600788'
         }
     }
@@ -75,7 +75,7 @@ async function cargarPerson(personId) {
     let url = `https://api.followupboss.com/v1/people/${personId}`;
     const options = {
         method: 'GET', headers: {
-            'X-System' : 'Automatizaciones',
+            'X-System': 'Automatizaciones',
             'X-System-Key': '6560b17c4117adb12bbff065f0600788',
             'Authorization': 'Basic ' + btoa(API_KEY + ':') // Usamos 'Basic' y la clave API codificada en base64
         }
@@ -117,7 +117,7 @@ async function actualizarStagePerson(apiKey, deal, person) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'X-System' : 'Automatizaciones',
+            'X-System': 'Automatizaciones',
             'X-System-Key': '6560b17c4117adb12bbff065f0600788',
             'Authorization': 'Basic ' + btoa(apiKey + ':') // Usamos 'Basic' y la clave API codificada en base64
         },
@@ -138,7 +138,7 @@ async function actualizarStagePerson(apiKey, deal, person) {
         console.error('Error de red:', error);
         alert('No se pudo conectar con Follow Up Boss');
     }
-    
+
 }
 async function cargarPipeline(pipelineId) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
