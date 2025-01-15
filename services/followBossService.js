@@ -53,7 +53,12 @@ export const getWebhook = async (apiKey, data) => {
             console.log("Person ID: ", person.id, "Person Name:", person.firstName, person.lastName, "Person StageOld: ", person.stage, "Person Stage New: ", "No se Actualiza")
         }
     } else {
-        console.log("Person ID: ", person.id, "Person Name:", person.name, "Deal ID: ", deal.id, ' - ', deal.name, "Person Stage: ", deal.stageName)
+        if(deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')){
+            console.log("Person ID: ", person.id, "Person Name:", person.name, "Deal ID: ", deal.id, ' - ', deal.name, "Person Stage: ", deal.stageName, "MODIFICA")
+        }else{
+            console.log("Person ID: ", person.id, "Person Name:", person.name, "Deal ID: ", deal.id, ' - ', deal.name, "Person Stage: ", deal.stageName, "NO MODIFICA")
+        }
+        
     }
     return { deal: deal, person: person }
 };
