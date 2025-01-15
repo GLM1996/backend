@@ -44,7 +44,7 @@ export const getWebhook = async (apiKey, data) => {
     const pipeline = await cargarPipeline(deal.pipelineId)
 
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
-    if (person.id === '39927') {
+    if (person.id === 39927) {
         await createNoteForPerson(apiKey, person, deal)
         await actualizarStagePerson(apiKey, person.id, stageId, stageName)
     } else {
