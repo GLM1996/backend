@@ -104,8 +104,8 @@ async function cargarPerson(personId) {
     return data
 }
 async function cargarAgent(person) {
-    const collaborators = person.collaborators
-    const data = collaborators.find(agent => agent.role === "Agent" && agent.assigned === true);
+    const pondMembers = person.pondMembers
+    const data = pondMembers.find(agent => agent.role === "Agent" && agent.assigned === true);
     return data
 }
 async function createNoteForPerson(apiKey, person, deal) {
