@@ -41,6 +41,7 @@ export const getGoogleEnlaces = async () => {
 export const getWebhook = async (apiKey, data) => {
     const deal = await obtenerDeal(data)
     const person = await cargarPerson(deal.people[0].id)
+    const agent = await cargarAgent(person)
     //const pipeline = await cargarPipeline(deal.pipelineId)
 
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
@@ -55,9 +56,9 @@ export const getWebhook = async (apiKey, data) => {
     } else {
         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
             //await actualizarStagePerson(apiKey, deal, person)
-            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName, "--> MOD")
+            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName,"A: ",agent.name, "--> MOD")
         } else {
-            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName, "--> NO MOD")
+            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName,"A: ",agent.name, "--> NO MOD")
         }
 
     }
@@ -88,6 +89,11 @@ async function cargarPerson(personId) {
     }
     const response = await fetch(url, options);
     const data = await response.json();
+    return data
+}
+async function cargarAgent(person) {
+    const collaborators = person.collaborators
+    const data = collaborators.find(agent => agent.role === "Agent" && agent.assigned === true);
     return data
 }
 async function createNoteForPerson(apiKey, person, deal) {
