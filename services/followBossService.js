@@ -62,7 +62,7 @@ export const getWebhook = async (apiKey, data) => {
             console.log("D-ID: ", deal.id)
             console.log("D-N", deal.name)
             console.log("D-S: ", deal.stageName)
-            console.log("A: ", agent.name, "--> MOD")
+            //agent.name ? console.log("A: ", agent.name, "--> MOD") : console.log("A: ", "No Tiene", "--> MOD")
         } else {
             console.log("-----Datos Deal Editado")
             console.log("P-ID: ", person.id)
@@ -70,7 +70,7 @@ export const getWebhook = async (apiKey, data) => {
             console.log("D-ID: ", deal.id)
             console.log("D-N", deal.name)
             console.log("D-S: ", deal.stageName)
-            console.log("A: ", agent.name, "--> NO MOD")
+            //console.log("A: ", agent.name, "--> NO MOD")
         }
 
     }
