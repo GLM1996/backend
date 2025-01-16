@@ -41,7 +41,7 @@ export const getGoogleEnlaces = async () => {
 export const getWebhook = async (apiKey, data) => {
     const deal = await obtenerDeal(data)
     const person = await cargarPerson(deal.people[0].id)
-    const agent = await cargarAgent(person)
+    //const agent = await cargarAgent(person)
     //const pipeline = await cargarPipeline(deal.pipelineId)
 
     //&& (pipeline.name.includes('F/U') || pipeline.name.includes('UNDEFINED'))
@@ -103,6 +103,35 @@ async function cargarPerson(personId) {
     const data = await response.json();
     return data
 }
+async function actualizarStagePerson(apiKey, deal, person) {
+    const url = `https://api.followupboss.com/v1/people/${person.id}`;
+    const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-System': 'Automatizaciones',
+            'X-System-Key': '6560b17c4117adb12bbff065f0600788',
+            'Authorization': 'Basic ' + btoa(apiKey + ':') // Usamos 'Basic' y la clave API codificada en base64
+        },
+        body: JSON.stringify({
+            stage: deal.stageName, // Nuevo stage
+        })
+    }
+    try {
+        const response = await fetch(url, options);
+        if (response.ok) {
+            // await actualizarDeal(stageId, newStage)
+            // await createNoteForPerson(newStage);
+        } else {
+            const errorData = await response.json();
+            showToast(errorData, 1)
+        }
+    } catch (error) {
+        console.error('Error de red:', error);
+        alert('No se pudo conectar con Follow Up Boss');
+    }
+
+}
 async function cargarAgent(person) {
     const pondMembers = person.pondMembers
     const data = pondMembers.find(agent => agent.role === "Agent" && agent.assigned === true);
@@ -134,35 +163,6 @@ async function createNoteForPerson(apiKey, person, deal) {
         console.error('Error al crear la nota:', error);
         alert('Hubo un error al crear la nota.');
     }
-}
-async function actualizarStagePerson(apiKey, deal, person) {
-    const url = `https://api.followupboss.com/v1/people/${person.id}`;
-    const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-System': 'Automatizaciones',
-            'X-System-Key': '6560b17c4117adb12bbff065f0600788',
-            'Authorization': 'Basic ' + btoa(apiKey + ':') // Usamos 'Basic' y la clave API codificada en base64
-        },
-        body: JSON.stringify({
-            stage: deal.stageName, // Nuevo stage
-        })
-    }
-    try {
-        const response = await fetch(url, options);
-        if (response.ok) {
-            // await actualizarDeal(stageId, newStage)
-            // await createNoteForPerson(newStage);
-        } else {
-            const errorData = await response.json();
-            showToast(errorData, 1)
-        }
-    } catch (error) {
-        console.error('Error de red:', error);
-        alert('No se pudo conectar con Follow Up Boss');
-    }
-
 }
 async function cargarPipeline(pipelineId) {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
