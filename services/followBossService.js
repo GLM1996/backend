@@ -56,9 +56,21 @@ export const getWebhook = async (apiKey, data) => {
     } else {
         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
             //await actualizarStagePerson(apiKey, deal, person)
-            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName,"A: ",agent.name, "--> MOD")
+            console.log("-----Datos Deal Editado")
+            console.log("P-ID: ", person.id)
+            console.log("P-N:", person.name)
+            console.log("D-ID: ", deal.id)
+            console.log("D-N", deal.name)
+            console.log("D-S: ", deal.stageName)
+            console.log("A: ", agent.name, "--> MOD")
         } else {
-            console.log("P-ID: ", person.id, "P-N:", person.name, "D-ID: ", deal.id, ' - ', deal.name, "D-S: ", deal.stageName,"A: ",agent.name, "--> NO MOD")
+            console.log("-----Datos Deal Editado")
+            console.log("P-ID: ", person.id)
+            console.log("P-N:", person.name)
+            console.log("D-ID: ", deal.id)
+            console.log("D-N", deal.name)
+            console.log("D-S: ", deal.stageName)
+            console.log("A: ", agent.name, "--> NO MOD")
         }
 
     }
