@@ -1,6 +1,7 @@
 import { getPipelines } from '../services/followBossService.js';
 import { getGoogleEnlaces } from '../services/followBossService.js';
-import { getWebhook } from '../services/followBossService.js'
+import { peopleUpdated } from '../services/followBossService.js'
+import { dealUpdated } from '../services/followBossService.js'
 
 export const getFollowBossPipelines = async (req, res) => {
     const apiKey = process.env.FOLLOW_BOSS_API_KEY;
@@ -25,15 +26,18 @@ export const getGoogleSheet = async (req, res) => {
 export const getWebhooks = async (req, res) => {
     const apiKey = process.env.FOLLOW_BOSS_API_KEY;
     //const webhookData = req.headers;
-    //obteniendo la direccion del Deal Editado    
-    console.log('---Body Webhook')
-    console.log(req.body)
+    //obteniendo la direccion del Deal Editado 
+    const body = req.body
     const dealUri = req.body.uri
     //const personId = await obtenerPersonId(dealUri);
     //const person = await cargarPerson(personId);
     // const dealUri = body.uri
     try {
-        const datosWebhook = await getWebhook(apiKey,dealUri)      
+        if (body.event === 'dealsUpdated') {
+            await peopleUpdated(apiKey, body.uri)
+        }else if(body.event === 'peopleUpdated'){
+            await dealUpdated(apiKey, body.uri)
+        }
         res.status(200).send('Webhook recibido');
     } catch (error) {
         console.error('Error al obtener gwebhooks:', error);
