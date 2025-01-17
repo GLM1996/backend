@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 
+//carga el deal desde el enlace del evento
 export const obtenerDeal = async (dealUri) => {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
     const options = {
@@ -13,6 +14,7 @@ export const obtenerDeal = async (dealUri) => {
     const data = await response.json();
     return data
 }
+//optiene la persona a la que se refiere el deal
 export const obtenerPersonDelDeal = async (personId) => {
     const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
     let url = `https://api.followupboss.com/v1/people/${personId}`;
@@ -27,6 +29,7 @@ export const obtenerPersonDelDeal = async (personId) => {
     const data = await response.json();
     return data
 }
+//actualiza la persona con los datos del deal
 export const actualizarStagePerson = async (apiKey, deal, person) => {
     const url = `https://api.followupboss.com/v1/people/${person.id}`;
     const options = {

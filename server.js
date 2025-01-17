@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-import fetch from 'node-fetch';
 import cors from 'cors';
 import followBossRoutes from './routes/followBossRoutes.js';
 

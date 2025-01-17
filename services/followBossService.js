@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';// O cualquier librería que estés usando para realizar las peticiones
+import supabase from '../db/conexion.js';
 
 import { obtenerDeal, obtenerPersonDelDeal, actualizarStagePerson } from './dealsService.js';
 
@@ -43,7 +44,6 @@ export const getGoogleEnlaces = async () => {
 export const peopleUpdated = async (apiKey, data) => {
     const deal = await obtenerDeal(data)
     const person = await obtenerPersonDelDeal(deal.people[0].id)
-
     
    /* if (person.id === 39927) {
         //await createNoteForPerson(apiKey, person, deal)
@@ -76,6 +76,21 @@ export const peopleUpdated = async (apiKey, data) => {
     console.log("D-N", deal.name)
     console.log("D-S: ", deal.stageName)
 
+    try {
+        await guardarDatosWebhook({
+            person_id: person.id,
+            person_name: person.name,
+            deal_id: deal.id,
+            deal_name: deal.name,
+            deal_stage: deal.stageName
+        });
+        console.log('Datos guardados correctamente');
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+    
+    
+
     //return { deal: deal, person: person }
 };
 //funcion para actualizar el deal cuando se cambia la persona
@@ -83,6 +98,28 @@ export const dealUpdated = async (apiKey, data) => {
     const person = await obtenerPerson(data)
 
     return { deal: deal, person: person }
+};
+export const guardarDatosWebhook = async (data) => {
+    const { person_id, person_name, deal_id, deal_name, deal_stage } = data;
+
+    const { error } = await supabase
+        .from('webhook_data') // Nombre de la tabla
+        .insert([
+            {
+                person_id,
+                person_name,
+                deal_id,
+                deal_name,
+                deal_stage,
+            },
+        ]);
+
+    if (error) {
+        console.error('Error al insertar datos en Supabase:', error);
+        throw error;
+    }
+
+    console.log('Datos guardados correctamente en Supabase');
 };
 
 

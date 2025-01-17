@@ -3,6 +3,7 @@ import { getGoogleEnlaces } from '../services/followBossService.js';
 import { peopleUpdated } from '../services/followBossService.js'
 import { dealUpdated } from '../services/followBossService.js'
 
+
 export const getFollowBossPipelines = async (req, res) => {
     const apiKey = process.env.FOLLOW_BOSS_API_KEY;
     try {
@@ -44,6 +45,8 @@ export const getWebhooks = async (req, res) => {
         res.status(500).send('Error al obtener gwebhooks');
     }
 };
+
+
 
 
 
