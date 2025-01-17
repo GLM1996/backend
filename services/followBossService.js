@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';// O cualquier librería que estés usando para realizar las peticiones
-import supabase from '../db/conexion.js';
+import { guardarDatosWebhook } from '../db/consultas.js'
 
 import { obtenerDeal, obtenerPersonDelDeal, actualizarStagePerson } from './dealsService.js';
 
@@ -44,31 +44,31 @@ export const getGoogleEnlaces = async () => {
 export const peopleUpdated = async (apiKey, data) => {
     const deal = await obtenerDeal(data)
     const person = await obtenerPersonDelDeal(deal.people[0].id)
-    
-   /* if (person.id === 39927) {
-        //await createNoteForPerson(apiKey, person, deal)
-        if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
-            //await actualizarStagePerson(apiKey, deal, person)
-            console.log("P-ID: ", person.id, "P-N:", person.firstName, person.lastName, "P-S: ", person.stage, "D-S: ", deal.stageName, "MOD")
-        } else {
-            console.log("P-ID: ", person.id, "P-N:", person.firstName, person.lastName, "P-S: ", person.stage, "D-S: ", deal.stageName, "NO MOD")
-        }
-    } else {
-        if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
-            //await actualizarStagePerson(apiKey, deal, person)
-            console.log("-----Datos Deal Editado")
-            console.log("P-ID: ", person.id)
-            console.log("P-N:", person.name)
-            console.log("D-ID: ", deal.id)
-            console.log("D-N", deal.name)
-            console.log("D-S: ", deal.stageName)
-            //agent.name ? console.log("A: ", agent.name, "--> MOD") : console.log("A: ", "No Tiene", "--> MOD")
-        } else {
 
-            //console.log("A: ", agent.name, "--> NO MOD")
-        }
-
-    }*/
+    /* if (person.id === 39927) {
+         //await createNoteForPerson(apiKey, person, deal)
+         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
+             //await actualizarStagePerson(apiKey, deal, person)
+             console.log("P-ID: ", person.id, "P-N:", person.firstName, person.lastName, "P-S: ", person.stage, "D-S: ", deal.stageName, "MOD")
+         } else {
+             console.log("P-ID: ", person.id, "P-N:", person.firstName, person.lastName, "P-S: ", person.stage, "D-S: ", deal.stageName, "NO MOD")
+         }
+     } else {
+         if (deal.pipelineName.includes('F/U') || deal.pipelineName.includes('UNDEFINED')) {
+             //await actualizarStagePerson(apiKey, deal, person)
+             console.log("-----Datos Deal Editado")
+             console.log("P-ID: ", person.id)
+             console.log("P-N:", person.name)
+             console.log("D-ID: ", deal.id)
+             console.log("D-N", deal.name)
+             console.log("D-S: ", deal.stageName)
+             //agent.name ? console.log("A: ", agent.name, "--> MOD") : console.log("A: ", "No Tiene", "--> MOD")
+         } else {
+ 
+             //console.log("A: ", agent.name, "--> NO MOD")
+         }
+ 
+     }*/
     console.log("-----Datos Deal Editado")
     console.log("P-ID: ", person.id)
     console.log("P-N:", person.name)
@@ -88,8 +88,8 @@ export const peopleUpdated = async (apiKey, data) => {
     } catch (error) {
         console.error('Error al guardar los datos:', error);
     }
-    
-    
+
+
 
     //return { deal: deal, person: person }
 };
@@ -99,27 +99,6 @@ export const dealUpdated = async (apiKey, data) => {
 
     return { deal: deal, person: person }
 };
-export const guardarDatosWebhook = async (data) => {
-    const { person_id, person_name, deal_id, deal_name, deal_stage } = data;
 
-    const { error } = await supabase
-        .from('webhook_data') // Nombre de la tabla
-        .insert([
-            {
-                person_id,
-                person_name,
-                deal_id,
-                deal_name,
-                deal_stage,
-            },
-        ]);
-
-    if (error) {
-        console.error('Error al insertar datos en Supabase:', error);
-        throw error;
-    }
-
-    console.log('Datos guardados correctamente en Supabase');
-};
 
 
