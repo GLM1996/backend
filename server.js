@@ -3,6 +3,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import followBossRoutes from './routes/followBossRoutes.js';
+import consultasRoutes from './routes/consultasRoutes.js';
+
 
 const router = express.Router();
 
@@ -24,6 +26,9 @@ app.use(bodyParser.json());
 // Usar las rutas definidas
 app.use('/api', followBossRoutes);
 
+// Usar las rutas definidas
+app.use('/api', consultasRoutes);
+
 /*app.use((req, res, next) => {
     console.log('Nueva solicitud entrante:');
     console.log('Método:', req.method);
@@ -33,7 +38,6 @@ app.use('/api', followBossRoutes);
 
     next(); // Continúa con la siguiente ruta
 });*/
-
 
 // Servidor en ejecución
 app.listen(port, () => {

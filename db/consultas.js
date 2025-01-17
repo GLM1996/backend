@@ -1,5 +1,5 @@
 
-import supabase from './conexion.js'; 
+import supabase from './conexion.js';
 
 export const guardarDatosWebhook = async (data) => {
     const { person_id, person_name, deal_id, deal_name, deal_stage } = data;
@@ -23,7 +23,8 @@ export const guardarDatosWebhook = async (data) => {
 
     console.log('Datos guardados correctamente en Supabase');
 };
-export const obtenerTodosLosDatos = async () => {
+export const obtenerTodosLosDatos = async (req, res) => {
+    console.log('buscando')
     try {
         const { data, error } = await supabase
             .from('webhook_data') // Nombre de la tabla
@@ -33,10 +34,14 @@ export const obtenerTodosLosDatos = async () => {
             throw error; // Manejar errores de la consulta
         }
 
-        return data; // Devuelve los datos obtenidos
+        if (data) {
+            // Enviar los datos como respuesta JSON
+            res.status(200).json(data);
+        }
     } catch (error) {
         console.error('Error al consultar los datos:', error);
-        throw error;
+        res.status(500).json({ error: 'Error al consultar los datos' }); // Responder con un error HTTP 500
     }
+
 };
 

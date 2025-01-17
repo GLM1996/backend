@@ -37,7 +37,7 @@ export const getWebhooks = async (req, res) => {
         if (body.event === 'dealsUpdated') {
             await peopleUpdated(apiKey, body.uri)
         }else if(body.event === 'peopleUpdated'){
-            await dealUpdated(apiKey, body.uri)
+           // await dealUpdated(apiKey, body.uri)
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {

@@ -95,9 +95,8 @@ export const peopleUpdated = async (apiKey, data) => {
 };
 //funcion para actualizar el deal cuando se cambia la persona
 export const dealUpdated = async (apiKey, data) => {
-    const person = await obtenerPerson(data)
-
-    return { deal: deal, person: person }
+    //const person = await obtenerPerson(data)
+    //return { deal: deal, person: person }
 };
 
 
