@@ -36,7 +36,7 @@ export const guardarDatosWebhook = async (data) => {
                     deal_id,
                     deal_name,
                     deal_stage,
-                    updated_at: new Date().toISOString(), // Actualiza la fecha
+                    created_at: new Date().toISOString(), // Actualiza la fecha
                 },
             ],
             { onConflict: ['person_id', 'deal_id'] } // Claves únicas para determinar conflicto
