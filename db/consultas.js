@@ -1,7 +1,7 @@
 
 import supabase from './conexion.js';
 
-export const guardarDatosWebhook = async (data) => {
+/*export const guardarDatosWebhook = async (data) => {
     const { person_id, person_name, deal_id, deal_name, deal_stage } = data;
 
     const { error } = await supabase
@@ -22,7 +22,34 @@ export const guardarDatosWebhook = async (data) => {
     }
 
     console.log('Datos guardados correctamente en Supabase');
+};*/
+export const guardarDatosWebhook = async (data) => {
+    const { person_id, person_name, deal_id, deal_name, deal_stage } = data;
+
+    const { error } = await supabase
+        .from('webhook_data') // Nombre de la tabla
+        .upsert(
+            [
+                {
+                    person_id,
+                    person_name,
+                    deal_id,
+                    deal_name,
+                    deal_stage,
+                    updated_at: new Date().toISOString(), // Actualiza la fecha
+                },
+            ],
+            { onConflict: ['person_id', 'deal_id'] } // Claves únicas para determinar conflicto
+        );
+
+    if (error) {
+        console.error('Error al guardar datos en Supabase:', error);
+        throw error;
+    }
+
+    console.log('Datos guardados o actualizados correctamente en Supabase');
 };
+
 export const obtenerTodosLosDatos = async (req, res) => {
     console.log('buscando')
     try {
