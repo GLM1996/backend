@@ -30,6 +30,7 @@ export const getWebhooks = async (req, res) => {
     //obteniendo la direccion del Deal Editado 
     const body = req.body
     const dealUri = req.body.uri
+    console.log(body)
     //const personId = await obtenerPersonId(dealUri);
     //const person = await cargarPerson(personId);
     // const dealUri = body.uri

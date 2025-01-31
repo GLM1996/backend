@@ -51,7 +51,7 @@ export const guardarDatosWebhook = async (data) => {
 };
 
 export const obtenerTodosLosDatos = async (req, res) => {
-    console.log('buscando')
+    
     try {
         const { data, error } = await supabase
             .from('webhook_data') // Nombre de la tabla
