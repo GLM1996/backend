@@ -41,6 +41,8 @@ export const getWebhooks = async (req, res) => {
             await peopleUpdated(apiKey, body.uri)
         } else if (body.event === 'peopleUpdated') {
             // await dealUpdated(apiKey, body.uri)
+        }else if (body.workflow){
+            console.log('Agregar Nota en Follow Boss')
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {
