@@ -41,8 +41,27 @@ export const getWebhooks = async (req, res) => {
             await peopleUpdated(apiKey, body.uri)
         } else if (body.event === 'peopleUpdated') {
             // await dealUpdated(apiKey, body.uri)
-        }else if (body.workflow){
-            console.log('Agregar Nota en Follow Boss')
+        } else if (body.workflow) {
+            //encontrar la persona por email / phone / nombre
+            // Hacer tres peticiones en paralelo (por nombre, email y móvil)
+            let [responseName, responseEmail, responsePhone] = await Promise.all([
+                fetch(`https://api.followupboss.com/v1/people?name=${body.full_name}`, options),
+                fetch(`https://api.followupboss.com/v1/people?email=${body.email}`, options),
+                fetch(`https://api.followupboss.com/v1/people?phone=${body.phone}`, options),
+            ]);
+
+            // Convertir las respuestas a JSON
+            let resultName = await responseName.json();
+            let resultEmail = await responseEmail.json();
+            let resultPhone = await responsePhone.json();
+
+            // Combinar los resultados eliminando duplicados
+            let resultados = [...new Map(
+                [...resultName.people, ...resultEmail.people, ...resultPhone.people].map(item => [item.id, item])
+            ).values()];
+            console.log('Resultados: ', resultados)
+            return resultados
+
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {
