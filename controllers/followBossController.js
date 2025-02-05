@@ -30,15 +30,17 @@ export const getWebhooks = async (req, res) => {
     //obteniendo la direccion del Deal Editado 
     const body = req.body
     const dealUri = req.body.uri
-    console.log(body)
+    console.log("Email :", body.email)
+    console.log("Phone :", body.phone)
+    console.log("Full Name :", body.full_name)
     //const personId = await obtenerPersonId(dealUri);
     //const person = await cargarPerson(personId);
     // const dealUri = body.uri
     try {
         if (body.event === 'dealsUpdated') {
             await peopleUpdated(apiKey, body.uri)
-        }else if(body.event === 'peopleUpdated'){
-           // await dealUpdated(apiKey, body.uri)
+        } else if (body.event === 'peopleUpdated') {
+            // await dealUpdated(apiKey, body.uri)
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {

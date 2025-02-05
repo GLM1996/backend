@@ -38,6 +38,9 @@ app.use('/api', consultasRoutes);
 
     next(); // Continúa con la siguiente ruta
 });*/
+app.use('/',(req,res)=>{
+    res.send('Servidor Corriendo')
+})
 
 // Servidor en ejecución
 app.listen(port, () => {
