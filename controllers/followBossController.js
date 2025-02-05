@@ -3,6 +3,7 @@ import { getGoogleEnlaces } from '../services/followBossService.js';
 import { peopleUpdated } from '../services/followBossService.js'
 import { dealUpdated } from '../services/followBossService.js'
 
+const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
 
 export const getFollowBossPipelines = async (req, res) => {
     const apiKey = process.env.FOLLOW_BOSS_API_KEY;
@@ -44,6 +45,11 @@ export const getWebhooks = async (req, res) => {
         } else if (body.event === 'peopleUpdated') {
             // await dealUpdated(apiKey, body.uri)
         } else if (body.workflow) {
+            const options = {
+                method: 'GET', headers: {
+                    'Authorization': 'Basic ' + btoa(API_KEY + ':') // Usamos 'Basic' y la clave API codificada en base64
+                }
+            }
             //encontrar la persona por email / phone / nombre
             // Hacer tres peticiones en paralelo (por nombre, email y móvil)
             let result;
