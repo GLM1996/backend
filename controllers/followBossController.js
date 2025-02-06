@@ -62,7 +62,6 @@ export const getWebhooks = async (req, res) => {
                 // Si encuentra resultados por email, realiza las acciones
                 //acciones
                 createNoteForPerson(API_KEY,result.people[0])
-                console.log("Person: ", result.people[0])
                 return; // Termina la ejecución
             }
 
@@ -73,7 +72,7 @@ export const getWebhooks = async (req, res) => {
             if (result._metadata.total !== 0) {
                 // Si encuentra resultados por teléfono, realiza las acciones
                 //acciones
-                console.log("Person: ", result.people[0])
+                createNoteForPerson(API_KEY,result.people[0])
                 return; // Termina la ejecución
             }
 
@@ -83,7 +82,7 @@ export const getWebhooks = async (req, res) => {
 
             // Realiza las acciones por nombre
             //acciones
-            console.log("Person: ", result.people[0])
+            createNoteForPerson(API_KEY,result.people[0])
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {

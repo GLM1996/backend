@@ -111,7 +111,7 @@ export const createNoteForPerson =  async (apiKey,person)  => {
             body: JSON.stringify({
                 personId: 44495, // ID del contacto
                 subject: 'Prueba de Go Hight Level', // Texto de la nota
-                body: `Nombre: ${person.name} Email: ${person.email[0].value} Phone: ${person.phones[0].value}`,
+                body: `Nombre: ${person.name} Email: ${person.email.value} Phone: ${person.phones.value}`,
                 isHtml: false
             })
         });
