@@ -1,7 +1,7 @@
 import { getPipelines } from '../services/followBossService.js';
 import { getGoogleEnlaces } from '../services/followBossService.js';
-import { peopleUpdated } from '../services/followBossService.js'
-import { dealUpdated } from '../services/followBossService.js'
+import { peopleUpdated, createNoteForPerson } from '../services/followBossService.js'
+
 
 const API_KEY = process.env.FOLLOW_BOSS_API_KEY;
 
@@ -26,7 +26,6 @@ export const getGoogleSheet = async (req, res) => {
     }
 };
 export const getWebhooks = async (req, res) => {
-    const apiKey = process.env.FOLLOW_BOSS_API_KEY;
     //const webhookData = req.headers;
     //obteniendo la direccion del Deal Editado 
     const body = req.body
@@ -41,7 +40,7 @@ export const getWebhooks = async (req, res) => {
     // const dealUri = body.uri
     try {
         if (body.event === 'dealsUpdated') {
-            await peopleUpdated(apiKey, body.uri)
+            await peopleUpdated(API_KEY, body.uri)
         } else if (body.event === 'peopleUpdated') {
             // await dealUpdated(apiKey, body.uri)
         } else if (body.workflow) {
@@ -62,7 +61,8 @@ export const getWebhooks = async (req, res) => {
             if (result._metadata.total !== 0) {
                 // Si encuentra resultados por email, realiza las acciones
                 //acciones
-                console.log("Person: ",result.people[0])
+                createNoteForPerson(API_KEY,result.people[0])
+                console.log("Person: ", result.people[0])
                 return; // Termina la ejecución
             }
 
@@ -73,7 +73,7 @@ export const getWebhooks = async (req, res) => {
             if (result._metadata.total !== 0) {
                 // Si encuentra resultados por teléfono, realiza las acciones
                 //acciones
-                console.log("Person: ",result.people[0])
+                console.log("Person: ", result.people[0])
                 return; // Termina la ejecución
             }
 
@@ -83,7 +83,7 @@ export const getWebhooks = async (req, res) => {
 
             // Realiza las acciones por nombre
             //acciones
-            console.log("Person: ",result.people[0])
+            console.log("Person: ", result.people[0])
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {

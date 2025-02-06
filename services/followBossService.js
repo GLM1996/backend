@@ -98,6 +98,31 @@ export const dealUpdated = async (apiKey, data) => {
     //const person = await obtenerPerson(data)
     //return { deal: deal, person: person }
 };
+//craer nota
+export const createNoteForPerson =  async (apiKey,person)  => {
+    try {
+        // Crear la nota
+        const response = await fetch('https://api.followupboss.com/v1/notes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${btoa(apiKey + ':')}` // Autenticación básica con API Key
+            },
+            body: JSON.stringify({
+                personId: 44495, // ID del contacto
+                subject: 'Prueba de Go Hight Level', // Texto de la nota
+                body: `Nombre: ${person.name} Email: ${person.email[0].value} Phone: ${person.phones[0].value}`,
+                isHtml: false
+            })
+        });
 
+        if (!response.ok) {
+            throw new Error(`Error al crear la nota: ${response.statusText}`);
+        }
+        const result = await response.json();
+    } catch (error) {
+        alert('Hubo un error al crear la nota.');
+    }
+}
 
 
