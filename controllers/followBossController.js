@@ -52,7 +52,6 @@ export const getWebhooks = async (req, res) => {
             //encontrar la persona por email / phone / nombre
             // Hacer tres peticiones en paralelo (por nombre, email y móvil)
             let result;
-
             // Primero, busca por correo electrónico
             // Primero, busca por correo electrónico
             let responseEmail = await fetch(`https://api.followupboss.com/v1/people?email=${body.email}`, options);
@@ -76,13 +75,7 @@ export const getWebhooks = async (req, res) => {
                 return; // Termina la ejecución
             }
 
-            // Si no encontró resultados por teléfono, busca por nombre
-            let responseName = await fetch(`https://api.followupboss.com/v1/people?name=${body.full_name}`, options);
-            result = await responseName.json();
-
-            // Realiza las acciones por nombre
-            //acciones
-            createNoteForPerson(API_KEY,result.people[0])
+           console.log('bucar person')
         }
         res.status(200).send('Webhook recibido');
     } catch (error) {
